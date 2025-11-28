@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import { Button, Input, Card } from "@/components/ui";
 import { Send, Bot, User, Loader2 } from "lucide-react";
 import { DashboardHeader } from "../_components";
+// NEW IMPORTS
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Message = {
   role: "user" | "assistant";
@@ -23,7 +26,6 @@ export default function ChatPage() {
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
-    // Use setTimeout to ensure DOM is updated before scrolling
     const timeoutId = setTimeout(() => {
       if (scrollRef.current) {
         scrollRef.current.scrollTo({
@@ -34,7 +36,7 @@ export default function ChatPage() {
     }, 100);
 
     return () => clearTimeout(timeoutId);
-  }, [messages, loading]); // Added loading to dependencies to scroll when "Analyzing..." appears
+  }, [messages, loading]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -81,16 +83,13 @@ export default function ChatPage() {
   };
 
   return (
-    // CHANGED: Use svh for better mobile support and ensure correct offset
     <div className="flex flex-col h-[calc(100svh-4rem)]">
       <DashboardHeader title="Chat Assistant" />
       
-      {/* CHANGED: Added min-h-0 to allow flex child to shrink and scroll */}
       <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col max-w-4xl mx-auto w-full min-h-0">
         <Card className="flex-1 flex flex-col shadow-sm border bg-background/50 backdrop-blur-sm min-h-0">
           <div 
             ref={scrollRef}
-            // CHANGED: Added scroll-smooth and ensuring height constraints
             className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth"
           >
             {messages.map((msg, i) => (
@@ -113,7 +112,38 @@ export default function ChatPage() {
                       : "bg-muted rounded-tl-sm"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                  {/* UPDATED: Logic to render Markdown for assistant, plain text for user */}
+                  {msg.role === "assistant" ? (
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // Custom styling for specific Markdown elements
+                        p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                        ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                        ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
+                        li: ({ children }) => <li>{children}</li>,
+                        h1: ({ children }) => <h1 className="text-xl font-bold mb-2 mt-4">{children}</h1>,
+                        h2: ({ children }) => <h2 className="text-lg font-bold mb-2 mt-3">{children}</h2>,
+                        h3: ({ children }) => <h3 className="text-base font-semibold mb-1 mt-2">{children}</h3>,
+                        strong: ({ children }) => <span className="font-bold text-foreground/90">{children}</span>,
+                        a: ({ href, children }) => (
+                          <a 
+                            href={href} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-primary underline underline-offset-4 hover:opacity-80 font-medium"
+                          >
+                            {children}
+                          </a>
+                        ),
+                        code: ({ children }) => <code className="bg-muted-foreground/20 px-1 py-0.5 rounded text-xs font-mono">{children}</code>
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                  ) : (
+                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                  )}
                 </div>
 
                 {msg.role === "user" && (
@@ -135,7 +165,6 @@ export default function ChatPage() {
                 </div>
               </div>
             )}
-            {/* Invisible element to help with bottom spacing */}
             <div className="h-px" /> 
           </div>
 
