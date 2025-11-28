@@ -23,10 +23,18 @@ export default function ChatPage() {
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+    // Use setTimeout to ensure DOM is updated before scrolling
+    const timeoutId = setTimeout(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [messages, loading]); // Added loading to dependencies to scroll when "Analyzing..." appears
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -73,14 +81,17 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
+    // CHANGED: Use svh for better mobile support and ensure correct offset
+    <div className="flex flex-col h-[calc(100svh-4rem)]">
       <DashboardHeader title="Chat Assistant" />
       
-      <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col max-w-4xl mx-auto w-full">
-        <Card className="flex-1 flex flex-col shadow-sm border bg-background/50 backdrop-blur-sm">
+      {/* CHANGED: Added min-h-0 to allow flex child to shrink and scroll */}
+      <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col max-w-4xl mx-auto w-full min-h-0">
+        <Card className="flex-1 flex flex-col shadow-sm border bg-background/50 backdrop-blur-sm min-h-0">
           <div 
             ref={scrollRef}
-            className="flex-1 overflow-y-auto p-4 space-y-6"
+            // CHANGED: Added scroll-smooth and ensuring height constraints
+            className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth"
           >
             {messages.map((msg, i) => (
               <div
@@ -124,9 +135,11 @@ export default function ChatPage() {
                 </div>
               </div>
             )}
+            {/* Invisible element to help with bottom spacing */}
+            <div className="h-px" /> 
           </div>
 
-          <div className="p-4 border-t bg-background">
+          <div className="p-4 border-t bg-background mt-auto">
             <div className="flex gap-2 relative">
               <Input
                 placeholder="Ask a question..."
