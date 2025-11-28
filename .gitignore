@@ -19,6 +19,7 @@
 
 # production
 /build
+campus-compass-main
 
 # misc
 .DS_Store

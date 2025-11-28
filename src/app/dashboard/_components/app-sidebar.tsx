@@ -13,6 +13,7 @@ import {
 } from "@/components/ui";
 import { NavMain } from "./nav-main";
 import { DashboardIcon, PathwayIcon, TodosIcon } from "@/components";
+import { MessageSquareText } from "lucide-react"; // Import chat icon
 import { NavUser } from "./nav-user";
 
 const data = {
@@ -36,6 +37,11 @@ const data = {
       title: "Todos",
       url: "/dashboard/todos",
       icon: TodosIcon,
+    },
+    {
+      title: "Chat Assistant", // Added Chat link
+      url: "/dashboard/chat",
+      icon: MessageSquareText,
     },
   ],
 };
