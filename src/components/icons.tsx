@@ -1,0 +1,20 @@
+import { ArrowRight, BookOpen, Building, Bus, Calendar, CheckCircle, Circle, Download, ExternalLink, Heart, Home, LayoutDashboard, Link, ListChecks, Map, Radio, Waypoints } from "lucide-react";
+
+export const DashboardIcon = LayoutDashboard;
+export const TodosIcon = ListChecks;
+export const PathwayIcon = Waypoints;
+export const BeforeArrivalPhaseIcon = Home;
+export const UponArrivalPhaseIcon = Building;
+export const SettlingInPhaseIcon = BookOpen;
+export const DownloadIcon = Download;
+export const ExternalLinkIcon = ExternalLink;
+export const ArrowRightIcon = ArrowRight;
+export const HomeIcon = Home;
+export const MapIcon = Map;
+export const CheckCircleIcon = CheckCircle;
+export const CircleIcon = Circle;
+export const CalendarIcon = Calendar;
+export const HeartIcon = Heart;
+export const TransportationIcon = Bus;
+export const RadioIcon = Radio;
+export const LinkIcon = Link;

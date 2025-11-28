@@ -1,0 +1,16 @@
+﻿Index,State,Filename,Size,Message,Source Checksum,Target Checksum,Created,Updated,Source Path,Target Path
+1,Moved,public\,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\public\,D:\github\CampusCompassBot\public\
+2,Moved,src\,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\src\,D:\github\CampusCompassBot\src\
+3,Moved,.gitignore,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\.gitignore,D:\github\CampusCompassBot\.gitignore
+4,Moved,components.json,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\components.json,D:\github\CampusCompassBot\components.json
+5,Moved,DESIGN.md,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\DESIGN.md,D:\github\CampusCompassBot\DESIGN.md
+6,Moved,eslint.config.mjs,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\eslint.config.mjs,D:\github\CampusCompassBot\eslint.config.mjs
+7,Moved,index.d.ts,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\index.d.ts,D:\github\CampusCompassBot\index.d.ts
+8,Moved,LICENSE,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\LICENSE,D:\github\CampusCompassBot\LICENSE
+9,Moved,next.config.ts,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\next.config.ts,D:\github\CampusCompassBot\next.config.ts
+10,Moved,package.json,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\package.json,D:\github\CampusCompassBot\package.json
+11,Moved,package-lock.json,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\package-lock.json,D:\github\CampusCompassBot\package-lock.json
+12,Moved,postcss.config.mjs,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\postcss.config.mjs,D:\github\CampusCompassBot\postcss.config.mjs
+13,Moved,PROPOSED_CONTENT.md,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\PROPOSED_CONTENT.md,D:\github\CampusCompassBot\PROPOSED_CONTENT.md
+14,Moved,README.md,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\README.md,D:\github\CampusCompassBot\README.md
+15,Moved,tsconfig.json,0,,,,29-12-1899 00:00:00,29-12-1899 00:00:00,D:\github\CampusCompassBot\campus-compass-main\tsconfig.json,D:\github\CampusCompassBot\tsconfig.json

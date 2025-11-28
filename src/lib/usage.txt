@@ -1,0 +1,92 @@
+import { NextRequest, NextResponse } from "next/server";
+import { PhaseModel } from "@/models";
+import { phaseSchema, TPhase } from "@/lib";
+import { handlers, ValidationError } from "@/lib/route-utils";
+
+// Define interface for request body
+interface CreatePhaseBody {
+  title: string;
+  description: string;
+  icon?: string;
+  tasks?: Array<{
+    label: string;
+    description: string;
+    priority: "low" | "medium" | "high";
+    dueDate?: string | null;
+  }>;
+}
+
+// GET all phases (public)
+const getPhases = async (req: NextRequest, { params }: AppRouteContext) => {
+  const phases = await PhaseModel.find().sort({ createdAt: 1 });
+  return NextResponse.json<TPhase[]>(phases, { status: 200 });
+};
+
+// GET single phase (public)
+const getPhase = async (req: NextRequest, { params }: AppRouteContext) => {
+  const { id } = params!;
+  const phase = await PhaseModel.findById(id);
+  
+  if (!phase) {
+    throw new NotFoundError('Phase not found');
+  }
+  
+  return NextResponse.json<TPhase>(phase.toObject(), { status: 200 });
+};
+
+// POST create phase (authenticated)
+const createPhase = async (
+  req: NextRequest & { jsonBody: CreatePhaseBody, user: AuthUser },
+  { params }: AppRouteContext
+) => {
+  const parsed = phaseSchema.parse(req.jsonBody);
+  const createdPhase = await PhaseModel.create({
+    ...parsed,
+    createdBy: req.user.id // Use auth user info
+  });
+  
+  return NextResponse.json<TPhase>(createdPhase.toObject(), { status: 201 });
+};
+
+// PUT update phase (authenticated)
+const updatePhase = async (
+  req: NextRequest & { jsonBody: Partial<CreatePhaseBody>, user: AuthUser },
+  { params }: AppRouteContext
+) => {
+  const { id } = params!;
+  const parsed = phaseSchema.partial().parse(req.jsonBody);
+  
+  const updatedPhase = await PhaseModel.findByIdAndUpdate(
+    id,
+    { ...parsed, updatedBy: req.user.id },
+    { new: true, runValidators: true }
+  );
+  
+  if (!updatedPhase) {
+    throw new NotFoundError('Phase not found');
+  }
+  
+  return NextResponse.json<TPhase>(updatedPhase.toObject(), { status: 200 });
+};
+
+// Export handlers with proper typing
+export const GET = handlers.GET(getPhases);
+export const POST = handlers.auth.POST<CreatePhaseBody>(createPhase, 'admin');
+export const dynamic = 'force-dynamic';
+
+// For dynamic routes
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const handler = handlers.GET(getPhase);
+  return handler(req, { params });
+}
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const handler = handlers.auth.PUT<Partial<CreatePhaseBody>>(updatePhase, 'admin');
+  return handler(req, { params });
+}
